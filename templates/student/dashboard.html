@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard{% endblock %}
+{% block content %}
+<h3 class="mb-4">Welcome, {{ current_user.name }} 👋</h3>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="stat-number">{{ profile.resume_score or 0 }}</div>
+            <div class="text-muted">Resume Score</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="stat-number">{{ profile.skills_list()|length }}</div>
+            <div class="text-muted">Skills Detected</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="stat-number">{{ applications|length }}</div>
+            <div class="text-muted">Applications</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="stat-number">{{ recent_interviews|length }}</div>
+            <div class="text-muted">Mock Interviews</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card p-3 mb-4">
+            <h5 class="mb-3"><i class="bi bi-briefcase"></i> Top Matching Jobs</h5>
+            {% if top_jobs %}
+                {% for r in top_jobs %}
+                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                    <div>
+                        <strong>{{ r.job.title }}</strong> — {{ r.job.company.name }}
+                        <div class="match-bar mt-1" style="width:160px;">
+                            <div class="match-bar-fill" style="width:{{ r.score }}%;"></div>
+                        </div>
+                    </div>
+                    <span class="badge {{ 'bg-success' if r.score >= 60 else 'bg-warning text-dark' if r.score >= 30 else 'bg-secondary' }}">{{ r.score }}% match</span>
+                </div>
+                {% endfor %}
+                <a href="{{ url_for('student.jobs') }}" class="btn btn-sm brand-btn mt-3">View All Jobs</a>
+            {% else %}
+                <p class="text-muted mb-0">No active jobs yet. Check back soon!</p>
+            {% endif %}
+        </div>
+
+        <div class="card p-3">
+            <h5 class="mb-3"><i class="bi bi-megaphone"></i> Placement Notices</h5>
+            {% if notices %}
+                {% for n in notices %}
+                <div class="border-bottom py-2">
+                    <strong>{{ n.title }}</strong>
+                    <p class="text-muted small mb-0">{{ n.content }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted mb-0">No notices published yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card p-3 mb-4 text-center">
+            <h5 class="mb-3">Resume Health</h5>
+            {% set score = profile.resume_score or 0 %}
+            <div class="score-ring {{ 'score-high' if score >= 70 else 'score-mid' if score >= 40 else 'score-low' }}">
+                {{ score }}
+            </div>
+            <p class="text-muted small mt-3 mb-2">
+                {% if profile.resume_filename %}
+                    Last analyzed resume: {{ profile.resume_filename }}
+                {% else %}
+                    You haven't uploaded a resume yet.
+                {% endif %}
+            </p>
+            <a href="{{ url_for('student.resume') }}" class="btn btn-sm brand-btn">
+                {{ 'Re-analyze Resume' if profile.resume_filename else 'Upload Resume' }}
+            </a>
+        </div>
+
+        <div class="card p-3">
+            <h5 class="mb-3"><i class="bi bi-mic"></i> Recent Mock Interviews</h5>
+            {% if recent_interviews %}
+                {% for s in recent_interviews %}
+                <div class="d-flex justify-content-between border-bottom py-2">
+                    <span>{{ s.role }}</span>
+                    <span class="badge bg-primary">{{ s.overall_score }}%</span>
+                </div>
+                {% endfor %}
+                <a href="{{ url_for('student.interview_history') }}" class="btn btn-sm brand-btn mt-3">View History</a>
+            {% else %}
+                <p class="text-muted mb-2">You haven't taken a mock interview yet.</p>
+                <a href="{{ url_for('student.interview_setup') }}" class="btn btn-sm brand-btn">Start Practicing</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

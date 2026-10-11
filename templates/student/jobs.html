@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Browse Jobs{% endblock %}
+{% block content %}
+<h3 class="mb-4"><i class="bi bi-briefcase"></i> Browse Jobs</h3>
+
+{% if not profile.resume_filename %}
+<div class="alert alert-info">Upload your resume first to get personalized match scores. <a href="{{ url_for('student.resume') }}">Upload now</a>.</div>
+{% endif %}
+
+<div class="row g-4">
+    {% for r in ranked %}
+    <div class="col-md-6">
+        <div class="card p-3 h-100">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h5 class="mb-0">{{ r.job.title }}</h5>
+                    <p class="text-muted mb-1">{{ r.job.company.name }} &middot; {{ r.job.location }}</p>
+                </div>
+                <span class="badge {{ 'bg-success' if r.score >= 60 else 'bg-warning text-dark' if r.score >= 30 else 'bg-secondary' }}">{{ r.score }}% match</span>
+            </div>
+
+            <div class="match-bar my-2">
+                <div class="match-bar-fill" style="width:{{ r.score }}%;"></div>
+            </div>
+
+            <p class="small mb-2">{{ r.job.description }}</p>
+            <p class="small mb-1"><strong>Min CGPA:</strong> {{ r.job.min_cgpa }} &middot; <strong>Package:</strong> {{ r.job.package_lpa }} LPA</p>
+            {% if r.job.drive_date %}<p class="small mb-2"><strong>Drive Date:</strong> {{ r.job.drive_date.strftime('%d %b %Y') }}</p>{% endif %}
+
+            {% if r.missing_skills %}
+            <div class="mb-2">
+                <span class="small text-muted">Missing skills:</span><br>
+                {% for skill in r.missing_skills %}
+                    <span class="missing-skill-badge">{{ skill }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if not r.eligible %}
+                <div class="alert alert-warning small py-1 px-2 mb-2">Your CGPA is below the minimum required.</div>
+            {% endif %}
+
+            {% if r.job.id in applied_job_ids %}
+                <button class="btn btn-sm btn-secondary" disabled>Already Applied</button>
+            {% else %}
+                <form method="POST" action="{{ url_for('student.apply_job', job_id=r.job.id) }}">
+                    <button type="submit" class="btn btn-sm brand-btn">Apply Now</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <p class="text-muted">No active job openings right now. Check back later.</p>
+    {% endfor %}
+</div>
+{% endblock %}

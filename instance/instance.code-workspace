@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../routes"
+		},
+		{
+			"path": "../static"
+		},
+		{
+			"path": "../templates"
+		},
+		{
+			"path": "../uploads"
+		},
+		{
+			"path": "../utils"
+		}
+	]
+}

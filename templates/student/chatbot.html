@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Placement Chatbot{% endblock %}
+{% block content %}
+<h3 class="mb-4"><i class="bi bi-chat-dots"></i> Placement Chatbot</h3>
+
+<div class="card p-3">
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-bubble bot">Hi! I'm your Placement Assistant. Ask me about eligibility, the placement process, upcoming drives, or resume tips.</div>
+    </div>
+    <form id="chatForm" class="d-flex gap-2 mt-3">
+        <input type="text" id="chatInput" class="form-control" placeholder="Type your question..." autocomplete="off" required>
+        <button type="submit" class="btn brand-btn"><i class="bi bi-send"></i></button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const chatWindow = document.getElementById('chatWindow');
+const chatForm = document.getElementById('chatForm');
+const chatInput = document.getElementById('chatInput');
+
+function addBubble(text, sender) {
+    const div = document.createElement('div');
+    div.className = 'chat-bubble ' + sender;
+    div.textContent = text;
+    chatWindow.appendChild(div);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const message = chatInput.value.trim();
+    if (!message) return;
+    addBubble(message, 'user');
+    chatInput.value = '';
+
+    try {
+        const res = await fetch("{{ url_for('main.chatbot_api') }}", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        addBubble(data.response, 'bot');
+    } catch (err) {
+        addBubble('Sorry, something went wrong. Please try again.', 'bot');
+    }
+});
+</script>
+{% endblock %}

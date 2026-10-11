@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Applicants{% endblock %}
+{% block content %}
+<h3 class="mb-4"><i class="bi bi-people"></i> Applicants — {{ job.title }} ({{ job.company.name }})</h3>
+
+<div class="card p-3">
+    <table class="table align-middle mb-0">
+        <thead><tr><th>Student</th><th>Branch</th><th>CGPA</th><th>Match</th><th>Status</th><th>Update</th></tr></thead>
+        <tbody>
+            {% for app in applications %}
+            <tr>
+                <td><a href="{{ url_for('admin.student_detail', profile_id=app.student.id) }}">{{ app.student.user.name }}</a></td>
+                <td>{{ app.student.branch }}</td>
+                <td>{{ app.student.cgpa }}</td>
+                <td>{{ app.match_score }}%</td>
+                <td><span class="badge {{ 'bg-success' if app.status == 'Selected' else 'bg-danger' if app.status == 'Rejected' else 'bg-info text-dark' if app.status == 'Shortlisted' else 'bg-secondary' }}">{{ app.status }}</span></td>
+                <td>
+                    <form method="POST" action="{{ url_for('admin.update_application_status', app_id=app.id) }}" class="d-flex gap-1">
+                        <select name="status" class="form-select form-select-sm">
+                            {% for s in ['Applied', 'Shortlisted', 'Rejected', 'Selected'] %}
+                            <option value="{{ s }}" {{ 'selected' if app.status == s else '' }}>{{ s }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-sm brand-btn">Save</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" class="text-muted">No applicants yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

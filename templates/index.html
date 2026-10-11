@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}AI Placement Assistant{% endblock %}
+{% block content %}
+<div class="hero mb-5">
+    <div class="row align-items-center">
+        <div class="col-lg-7">
+            <h1 class="display-6 fw-bold mb-3">Your AI-Powered Companion for Campus Placements</h1>
+            <p class="lead mb-4">Score your resume, discover the best-matched job openings, practice mock interviews, and get instant answers from your placement chatbot — all in one place.</p>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg me-2">Get Started</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg">Login</a>
+        </div>
+        <div class="col-lg-5 text-center d-none d-lg-block">
+            <i class="bi bi-mortarboard display-1"></i>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="card h-100 p-3 text-center">
+            <i class="bi bi-file-earmark-text display-5 text-primary mb-2"></i>
+            <h5>Resume Scoring</h5>
+            <p class="text-muted small">Upload your resume and get an instant score with actionable feedback.</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 p-3 text-center">
+            <i class="bi bi-briefcase display-5 text-primary mb-2"></i>
+            <h5>Smart Job Matching</h5>
+            <p class="text-muted small">See which openings best match your skills, ranked automatically.</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 p-3 text-center">
+            <i class="bi bi-mic display-5 text-primary mb-2"></i>
+            <h5>Mock Interviews</h5>
+            <p class="text-muted small">Practice role-specific questions and get instant, explainable feedback.</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 p-3 text-center">
+            <i class="bi bi-chat-dots display-5 text-primary mb-2"></i>
+            <h5>Placement Chatbot</h5>
+            <p class="text-muted small">Ask about eligibility, dates, and process anytime, day or night.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,134 @@
+:root {
+    --brand-primary: #4338ca;
+    --brand-primary-dark: #3730a3;
+    --brand-accent: #06b6d4;
+    --brand-bg: #f5f6fb;
+}
+
+body {
+    background-color: var(--brand-bg);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.app-navbar {
+    background: linear-gradient(90deg, var(--brand-primary), var(--brand-primary-dark));
+}
+
+.hero {
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+    color: #fff;
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+}
+
+.card {
+    border: none;
+    border-radius: 0.9rem;
+    box-shadow: 0 2px 12px rgba(30, 30, 60, 0.06);
+}
+
+.stat-card {
+    text-align: center;
+    padding: 1.25rem;
+}
+
+.stat-card .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+}
+
+.score-ring {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 auto;
+}
+
+.score-high { background: #16a34a; }
+.score-mid { background: #d97706; }
+.score-low { background: #dc2626; }
+
+.skill-badge {
+    display: inline-block;
+    background: #eef2ff;
+    color: var(--brand-primary-dark);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.8rem;
+    margin: 0.15rem;
+}
+
+.missing-skill-badge {
+    display: inline-block;
+    background: #fef2f2;
+    color: #b91c1c;
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.8rem;
+    margin: 0.15rem;
+}
+
+.match-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: #e5e7eb;
+    overflow: hidden;
+}
+
+.match-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
+}
+
+/* Chatbot */
+.chat-window {
+    height: 480px;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 0.9rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.chat-bubble {
+    max-width: 75%;
+    padding: 0.6rem 0.9rem;
+    border-radius: 1rem;
+    font-size: 0.92rem;
+    line-height: 1.4;
+}
+
+.chat-bubble.bot {
+    background: #eef2ff;
+    color: #1e1b4b;
+    align-self: flex-start;
+    border-bottom-left-radius: 0.2rem;
+}
+
+.chat-bubble.user {
+    background: var(--brand-primary);
+    color: #fff;
+    align-self: flex-end;
+    border-bottom-right-radius: 0.2rem;
+}
+
+.brand-btn {
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: #fff;
+}
+
+.brand-btn:hover {
+    background: var(--brand-primary-dark);
+    border-color: var(--brand-primary-dark);
+    color: #fff;
+}

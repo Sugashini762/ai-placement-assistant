@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ role }} Interview{% endblock %}
+{% block content %}
+<h3 class="mb-4"><i class="bi bi-mic"></i> {{ role }} — Mock Interview</h3>
+
+<form method="POST" action="{{ url_for('student.interview_submit', role=role) }}">
+    {% for q in questions %}
+    <div class="card p-3 mb-3">
+        <label class="form-label fw-bold">Q{{ loop.index }}. {{ q.question }}</label>
+        <textarea name="answer_{{ loop.index0 }}" class="form-control" rows="4" placeholder="Type your answer here..." required></textarea>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn brand-btn btn-lg">Submit Answers</button>
+</form>
+{% endblock %}

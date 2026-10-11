@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Interview Result{% endblock %}
+{% block content %}
+<h3 class="mb-4"><i class="bi bi-clipboard-data"></i> Interview Result — {{ session.role }}</h3>
+
+<div class="card p-4 mb-4 text-center">
+    <h5>Overall Score</h5>
+    {% set score = session.overall_score %}
+    <div class="score-ring {{ 'score-high' if score >= 70 else 'score-mid' if score >= 40 else 'score-low' }} mt-2">
+        {{ score }}%
+    </div>
+</div>
+
+{% for qa in qa_results %}
+<div class="card p-3 mb-3">
+    <p class="fw-bold mb-1">Q{{ loop.index }}. {{ qa.question }}</p>
+    <p class="small text-muted mb-2">Your answer: {{ qa.answer or "(no answer)" }}</p>
+    <span class="badge {{ 'bg-success' if qa.score >= 7 else 'bg-warning text-dark' if qa.score >= 4 else 'bg-danger' }}">Score: {{ qa.score }}/10</span>
+    <p class="small mt-2 mb-0">{{ qa.feedback }}</p>
+</div>
+{% endfor %}
+
+<a href="{{ url_for('student.interview_setup') }}" class="btn brand-btn">Practice Another Role</a>
+{% endblock %}

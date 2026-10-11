@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<h3 class="mb-4"><i class="bi bi-people"></i> Students</h3>
+
+<div class="card p-3">
+    <table class="table align-middle mb-0">
+        <thead><tr><th>Name</th><th>Branch</th><th>CGPA</th><th>Resume Score</th><th>Applications</th><th></th></tr></thead>
+        <tbody>
+            {% for s in students %}
+            <tr>
+                <td>{{ s.user.name }}</td>
+                <td>{{ s.branch }}</td>
+                <td>{{ s.cgpa }}</td>
+                <td>
+                    {% if s.resume_score %}
+                    <span class="badge {{ 'bg-success' if s.resume_score >= 70 else 'bg-warning text-dark' if s.resume_score >= 40 else 'bg-danger' }}">{{ s.resume_score }}</span>
+                    {% else %}
+                    <span class="text-muted small">Not uploaded</span>
+                    {% endif %}
+                </td>
+                <td>{{ s.applications|length }}</td>
+                <td><a href="{{ url_for('admin.student_detail', profile_id=s.id) }}" class="btn btn-sm btn-outline-primary">View</a></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" class="text-muted">No students registered yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

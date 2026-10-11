@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Resume Analysis{% endblock %}
+{% block content %}
+<h3 class="mb-4"><i class="bi bi-file-earmark-text"></i> Resume Analysis</h3>
+
+<div class="row g-4">
+    <div class="col-lg-5">
+        <div class="card p-4">
+            <h5 class="mb-3">Upload Resume</h5>
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <input type="file" name="resume_file" class="form-control" accept=".pdf,.docx,.txt" required>
+                    <div class="form-text">Accepted formats: PDF, DOCX, TXT (max 5MB).</div>
+                </div>
+                <button type="submit" class="btn brand-btn w-100">Analyze Resume</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        {% if profile.resume_filename %}
+        <div class="card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Analysis Result</h5>
+                {% set score = profile.resume_score or 0 %}
+                <div class="score-ring {{ 'score-high' if score >= 70 else 'score-mid' if score >= 40 else 'score-low' }}" style="width:70px;height:70px;font-size:1.1rem;">
+                    {{ score }}
+                </div>
+            </div>
+
+            <h6>Feedback</h6>
+            <ul class="small">
+                {% for line in profile.resume_feedback.split('\n') %}
+                    <li>{{ line }}</li>
+                {% endfor %}
+            </ul>
+
+            <h6 class="mt-3">Detected Skills</h6>
+            <div>
+                {% for skill in profile.skills_list() %}
+                    <span class="skill-badge">{{ skill }}</span>
+                {% else %}
+                    <p class="text-muted small">No skills detected yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="card p-4 text-center text-muted">
+            <i class="bi bi-file-earmark-arrow-up display-4 mb-2"></i>
+            <p>Upload a resume to see your score, feedback, and detected skills here.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
